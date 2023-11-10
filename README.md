@@ -1,6 +1,6 @@
 ![C64 Dreams Util](THEC64.png)
 
-<p align="center">C64 Dreams Util</p>
+<p align="center">C64 Dreams Utility Script</p>
 
 <hr/>
 
