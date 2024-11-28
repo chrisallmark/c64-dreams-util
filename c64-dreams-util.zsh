@@ -10,12 +10,8 @@ for i in C64\ Dreams/C64\ Dreams/Games/*/; do
         then
             count=0
             folder=$letter
-            folder_ext=""
         fi
-        if [[ $((count++)) = 256 ]]
-        then
-            folder_ext="^"
-        fi
+        folder_ext=$((count++ / 256))
         mkdir -p THEC64/$folder$folder_ext/$file
         for f in $i*.{d64,g64,d81,d82,crt,tap,t64,prg}; do
             cp $f THEC64/$folder$folder_ext/$file
