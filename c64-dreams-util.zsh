@@ -27,7 +27,7 @@ for i in "$src"/*/; do
         echo "Processing: $file"
         mkdir -p "THEC64/$folder$folder_ext/$file"
         for f in "$i"*.{d64,g64,d81,d82,crt,tap,t64,prg}; do
-            cp "$f" "THEC64/$folder$folder_ext/$file"
+            mv "$f" "THEC64/$folder$folder_ext/$file"
             cp "$cjm" "THEC64/$folder$folder_ext/$file"
         done
     fi

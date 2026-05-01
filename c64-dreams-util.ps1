@@ -29,7 +29,7 @@ Get-ChildItem -Directory $src | ForEach-Object {
     $targetDir = "THEC64\$folder$($folder_ext)\$file"
     New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
     Get-ChildItem -Path "$($_.FullName)\*" -Include *.d64, *.g64, *.d81, *.d82, *.crt, *.tap, *.t64, *.prg | ForEach-Object {
-        Copy-Item -LiteralPath $_.FullName -Destination $targetDir
+        Move-Item -LiteralPath $_.FullName -Destination $targetDir
         Copy-Item $cjm -Destination $targetDir
     }
 }
