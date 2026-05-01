@@ -1,5 +1,5 @@
-#!/bin/zsh
-setopt NULL_GLOB
+#!/bin/bash
+shopt -s nullglob
 
 src="C64 Dreams/C64 Dreams/Games"
 cjm="THEC64-default.cjm"
@@ -16,7 +16,7 @@ fi
 folder=""
 folder_ext=""
 for i in "$src"/*/; do
-    if [[ "${$(basename "$i"):0:1}" != "!" ]]; then
+    if [[ "$(basename "$i" | cut -c1)" != "!" ]]; then
         file=$(basename "$i")
         letter=$(echo "${file:0:1}" | tr '[:digit:]' '#' | tr '[:lower:]' '[:upper:]')
         if [[ "$folder" != "$letter" ]]; then
