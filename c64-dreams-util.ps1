@@ -14,9 +14,9 @@ if (-not (Test-Path $cjm -PathType Leaf)) {
 
 $folder = ""
 $folder_ext = 0
-Get-ChildItem -Directory $src | ForEach-Object {
+Get-ChildItem -Directory -Path $src | ForEach-Object {
     $file = $_.Name
-    if ($file.StartsWith("!")) { return }
+    if ($file.StartsWith('!')) { return }
     $firstChar = $file.Substring(0, 1)
     $letter = if ($firstChar -match '\d') { '#' } else { $firstChar.ToUpper() }
     if ($folder -ne $letter) {
@@ -26,10 +26,15 @@ Get-ChildItem -Directory $src | ForEach-Object {
     $folder_ext = [math]::Floor($count / 256)
     $count++
     Write-Host "Processing: $file"
-    $targetDir = "THEC64\$folder$($folder_ext)\$file"
-    New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
+    $dest = "THEC64\$folder$folder_ext\$file"
+    New-Item -ItemType Directory -Force -Path $dest | Out-Null
     Get-ChildItem -Path "$($_.FullName)\*" -Include *.d64, *.g64, *.d81, *.d82, *.crt, *.tap, *.t64, *.prg | ForEach-Object {
-        Move-Item -LiteralPath $_.FullName -Destination $targetDir
-        Copy-Item $cjm -Destination $targetDir
+        if (Test-Path -LiteralPath $_.FullName) {
+            Move-Item -LiteralPath $_.FullName -Destination $dest
+            Copy-Item $cjm -Destination $dest
+        }
+    }
+    if (-not (Get-ChildItem -Path $dest -Force)) {
+        Remove-Item -Path $dest
     }
 }

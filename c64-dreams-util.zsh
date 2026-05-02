@@ -24,11 +24,16 @@ for i in "$src"/*/; do
             folder=$letter
         fi
         folder_ext=$((count++ / 256))
+        dest="THEC64/$folder$folder_ext/$file"
         echo "Processing: $file"
-        mkdir -p "THEC64/$folder$folder_ext/$file"
+        mkdir -p "$dest"
         for f in "$i"*.{d64,g64,d81,d82,crt,tap,t64,prg}; do
-            mv "$f" "THEC64/$folder$folder_ext/$file"
-            cp "$cjm" "THEC64/$folder$folder_ext/$file"
+            [[ -f "$f" ]] || continue
+            mv "$f" "$dest"
+            cp "$cjm" "$dest"
         done
+        if [[ -z "$(ls -A "$dest")" ]]; then
+            rmdir "$dest"
+        fi
     fi
 done
