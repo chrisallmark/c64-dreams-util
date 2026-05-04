@@ -29,13 +29,15 @@ There are no build, test, or lint steps — the scripts run directly.
 
 Three parallel implementations (`.zsh`, `.bash`, `.ps1`) share the same logic:
 
-1. **Input** — reads game subdirectories from `C64 Dreams/C64 Dreams/Games/`
-2. **Sorting** — games are grouped by first letter (A–Z); names starting with a digit fall into numeric buckets (`#0`–`#3`)
-3. **Folder-size cap** — each output folder holds at most 256 files; if a letter's games exceed this, they are split into sub-buckets alphabetically
-4. **Supported extensions** — `d64 g64 d81 d82 crt tap t64 prg`
-5. **Output** — writes `THEC64/<letter>/` directories and copies `THEC64-default.cjm` into every game subfolder (required by the console for joystick mapping)
+1. **Validation** — exits early with an error if the source directory or `THEC64-default.cjm` are not found
+2. **Input** — reads game subdirectories from `C64 Dreams/C64 Dreams/Games/`
+3. **Exclusion** — game folders whose names begin with `!` are skipped (C64 Dreams uses this prefix to mark disabled/broken entries)
+4. **Sorting** — games are grouped by first letter (A–Z); names starting with a digit all map to the `#` bucket
+5. **Folder-size cap** — each output folder holds at most 256 games; if a letter's games exceed this, they are split into numbered sub-buckets (e.g. `A0`, `A1`); the sub-bucket index is appended directly to the letter, so `#0`, `A0`, `B0`, etc.
+6. **Supported extensions** — `d64 g64 d81 d82 crt tap t64 prg`
+7. **Output** — **moves** (not copies) ROM files into `THEC64/<letter><n>/<game>/` and copies `THEC64-default.cjm` into each game subfolder; game subfolders that end up empty (no matching ROM files) are removed
 
-The 256-file-per-folder limit and the `.cjm` copy are both hard THEC64 hardware constraints, not implementation choices.
+The 256-game-per-folder limit and the `.cjm` copy are both hard THEC64 hardware constraints, not implementation choices.
 
 ## Key Files
 
