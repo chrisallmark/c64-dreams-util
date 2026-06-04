@@ -1,0 +1,12 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+C64 Dreams*
+THEC64/
+
+# misc
+.DS_Store
+*.pem
+
+# other
+.claude
+.vscode
